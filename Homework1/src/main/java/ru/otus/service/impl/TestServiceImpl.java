@@ -1,14 +1,16 @@
-package service.impl;
+package ru.otus.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import model.Cell;
-import service.InputService;
-import service.OutputService;
-import service.TestService;
+import org.springframework.stereotype.Service;
+import ru.otus.model.Cell;
+import ru.otus.service.InputService;
+import ru.otus.service.OutputService;
+import ru.otus.service.TestService;
 
 import java.io.IOException;
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class TestServiceImpl implements TestService {
 

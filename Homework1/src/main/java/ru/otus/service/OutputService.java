@@ -1,6 +1,6 @@
-package service;
+package ru.otus.service;
 
-import model.Cell;
+import ru.otus.model.Cell;
 
 import java.util.List;
 

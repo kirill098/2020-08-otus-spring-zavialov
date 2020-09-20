@@ -1,4 +1,4 @@
-package model;
+package ru.otus.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,14 +1,16 @@
-package service.impl;
+package ru.otus.service.impl;
 
 import lombok.NoArgsConstructor;
-import model.Cell;
-import service.OutputService;
+import org.springframework.stereotype.Service;
+import ru.otus.model.Cell;
+import ru.otus.service.OutputService;
 
 import java.util.List;
 import java.util.Scanner;
 
 import static java.util.stream.Collectors.toList;
 
+@Service
 @NoArgsConstructor
 public class OutputServiceImpl implements OutputService {
 

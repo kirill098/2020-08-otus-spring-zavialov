@@ -1,4 +1,4 @@
-package service;
+package ru.otus.service;
 
 import java.io.IOException;
 

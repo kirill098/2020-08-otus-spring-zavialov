@@ -1,23 +1,25 @@
-package service.impl;
+package ru.otus.service.impl;
 
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import model.Cell;
-import service.InputService;
+import org.springframework.stereotype.Service;
+import ru.otus.model.Cell;
+import ru.otus.service.InputService;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class InputServiceImpl implements InputService {
 
-    private final String pathToFile;
+    private final InputStreamReader reader;
 
     public List<Cell> readCells() throws IOException {
-        CsvToBean csv = new CsvToBeanBuilder<Cell>(new FileReader(pathToFile))
+        CsvToBean csv = new CsvToBeanBuilder<Cell>(reader)
                 .withSeparator('=')
                 .withMappingStrategy(setColumnMapping())
                 .build();
@@ -27,7 +29,7 @@ public class InputServiceImpl implements InputService {
     private static ColumnPositionMappingStrategy setColumnMapping() {
         ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
         strategy.setType(Cell.class);
-        strategy.setColumnMapping(new String[] {"question", "expectedAnswer"});
+        strategy.setColumnMapping(new String[]{"question", "expectedAnswer"});
         return strategy;
     }
 }

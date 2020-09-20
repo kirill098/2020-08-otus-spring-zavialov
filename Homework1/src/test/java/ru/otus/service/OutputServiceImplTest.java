@@ -1,12 +1,12 @@
-package service.impl;
+package ru.otus.service;
 
-import model.Cell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import service.OutputService;
+import ru.otus.model.Cell;
+import ru.otus.service.impl.OutputServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
