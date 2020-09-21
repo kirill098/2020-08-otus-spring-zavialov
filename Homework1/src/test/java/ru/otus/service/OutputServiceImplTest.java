@@ -1,5 +1,6 @@
 package ru.otus.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,10 +9,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.model.Cell;
 import ru.otus.service.impl.OutputServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Класс OutputServiceImpl")
 @ExtendWith(MockitoExtension.class)
@@ -22,16 +26,12 @@ class OutputServiceImplTest {
     private static final String TEST_ACTUAL_ANSWER = "test_actual_answer";
     private static final long TEST_RESULT = 5;
 
-    private OutputService outputService;
-
-    @BeforeEach
-    void init() {
-        this.outputService = new OutputServiceImpl();
-    }
+    private OutputServiceImpl outputService;
 
     @DisplayName("метод result")
     @Test
     void shouldCorrectOutputResult() {
+        outputService = new OutputServiceImpl(mock(Scanner.class));
         assertThatNoException().isThrownBy(() ->
                 outputService.result(TEST_RESULT));
     }
@@ -39,18 +39,19 @@ class OutputServiceImplTest {
     @DisplayName("метод ask")
     @Test
     void shouldCorrectAsk() {
-        List<Cell> cells = newCells();
-        //todo
-    }
+        Scanner scanner = mock(Scanner.class);
+        when(scanner.next()).thenReturn(TEST_ACTUAL_ANSWER);
+        outputService = new OutputServiceImpl(scanner);
 
-    private List<Cell> newCells() {
-        Cell cell = new Cell();
-        cell.setQuestion(TEST_QUESTION);
-        cell.setActualAnswer(TEST_ACTUAL_ANSWER);
-        cell.setExpectedAnswer(TEST_EXPECTED_ANSWER);
+        List<Cell> cells = List.of(Cell.builder()
+                .question(TEST_QUESTION)
+                .expectedAnswer(TEST_EXPECTED_ANSWER)
+                .build());
 
-        List<Cell> cells = new ArrayList<>();
-        cells.add(cell);
-        return cells;
+        Assertions.assertThat(outputService.ask(cells))
+                .isNotNull()
+                .hasSize(1)
+                .extracting(Cell::getActualAnswer)
+                .isEqualTo(List.of(TEST_ACTUAL_ANSWER));
     }
 }

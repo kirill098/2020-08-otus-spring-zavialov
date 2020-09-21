@@ -18,7 +18,7 @@ public class InputServiceImpl implements InputService {
 
     private final InputStreamReader reader;
 
-    public List<Cell> readCells() throws IOException {
+    public List<Cell> readCells() {
         CsvToBean csv = new CsvToBeanBuilder<Cell>(reader)
                 .withSeparator('=')
                 .withMappingStrategy(setColumnMapping())

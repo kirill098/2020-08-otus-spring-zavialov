@@ -1,6 +1,6 @@
 package ru.otus.service.impl;
 
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.model.Cell;
 import ru.otus.service.OutputService;
@@ -11,10 +11,10 @@ import java.util.Scanner;
 import static java.util.stream.Collectors.toList;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class OutputServiceImpl implements OutputService {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
 
     @Override
     public List<Cell> ask(List<Cell> cells) {
@@ -29,4 +29,6 @@ public class OutputServiceImpl implements OutputService {
     public void result(long count) {
         System.out.println(String.format("Dear user, you answered %s of 5 questions correctly!", count));
     }
+
+
 }

@@ -42,4 +42,10 @@ class CellTest {
         cell.setActualAnswer(TEST_ACTUAL_ANSWER);
         assertThat(cell.getActualAnswer()).isEqualTo(TEST_ACTUAL_ANSWER);
     }
+
+    @DisplayName("корректно создается через Builder")
+    @Test
+    void shouldHaveCorrectBuilder() {
+
+    }
 }
