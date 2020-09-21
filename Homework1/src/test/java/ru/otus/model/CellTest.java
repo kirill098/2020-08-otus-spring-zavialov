@@ -1,9 +1,12 @@
 package ru.otus.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 
 @DisplayName("Класс Cell")
 class CellTest {
@@ -46,6 +49,16 @@ class CellTest {
     @DisplayName("корректно создается через Builder")
     @Test
     void shouldHaveCorrectBuilder() {
+        Cell actual = Cell.builder()
+                .question(TEST_QUESTION)
+                .actualAnswer(TEST_ACTUAL_ANSWER)
+                .expectedAnswer(TEST_EXPECTED_ANSWER)
+                .build();
 
+        Assertions.assertAll(
+                () -> assertEquals(TEST_QUESTION, actual.getQuestion()),
+                () -> assertEquals(TEST_EXPECTED_ANSWER, actual.getExpectedAnswer()),
+                () -> assertEquals(TEST_ACTUAL_ANSWER, actual.getActualAnswer())
+        );
     }
 }

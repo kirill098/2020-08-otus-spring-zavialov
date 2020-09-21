@@ -8,13 +8,15 @@ import org.springframework.stereotype.Service;
 import ru.otus.model.Cell;
 import ru.otus.service.InputService;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class InputServiceImpl implements InputService {
+
+    private final static String ATTR_QUESTION = "question";
+    private final static String ATTR_EXPECTED_ANSWER = "expectedAnswer";
 
     private final InputStreamReader reader;
 
@@ -29,7 +31,7 @@ public class InputServiceImpl implements InputService {
     private static ColumnPositionMappingStrategy setColumnMapping() {
         ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
         strategy.setType(Cell.class);
-        strategy.setColumnMapping(new String[]{"question", "expectedAnswer"});
+        strategy.setColumnMapping(new String[]{ATTR_QUESTION, ATTR_EXPECTED_ANSWER});
         return strategy;
     }
 }

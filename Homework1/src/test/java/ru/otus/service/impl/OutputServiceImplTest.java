@@ -1,16 +1,13 @@
-package ru.otus.service;
+package ru.otus.service.impl;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.model.Cell;
-import ru.otus.service.impl.OutputServiceImpl;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
