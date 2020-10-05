@@ -11,12 +11,12 @@ import ru.otus.service.InputService;
 import java.io.InputStreamReader;
 import java.util.List;
 
-@Service
+@Service("inputService")
 @RequiredArgsConstructor
 public class InputServiceImpl implements InputService {
 
-    private final static String ATTR_QUESTION = "question";
     private final static String ATTR_EXPECTED_ANSWER = "expectedAnswer";
+    private final static String ATTR_QUESTION = "question";
 
     private final InputStreamReader reader;
 

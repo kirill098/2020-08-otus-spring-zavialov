@@ -10,7 +10,7 @@ import ru.otus.service.TestService;
 import java.io.IOException;
 import java.util.List;
 
-@Service
+@Service("testService")
 @RequiredArgsConstructor
 public class TestServiceImpl implements TestService {
 
@@ -19,12 +19,12 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void start() throws IOException {
+        outputService.getGreetingMsg();
         List<Cell> onlyQuestions = inputService.readCells();
         List<Cell> questionsAndAnswers = outputService.ask(onlyQuestions);
-
         long countRightAnswers = questionsAndAnswers.stream()
                 .filter(c -> c.getExpectedAnswer().equalsIgnoreCase(c.getActualAnswer()))
                 .count();
-        outputService.result(countRightAnswers);
+        outputService.getConclusionMsg(countRightAnswers);
     }
 }

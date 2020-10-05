@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 import ru.otus.model.Cell;
 
 import java.util.List;
@@ -22,15 +23,24 @@ class OutputServiceImplTest {
     private static final String TEST_EXPECTED_ANSWER = "test_expected_answer";
     private static final String TEST_ACTUAL_ANSWER = "test_actual_answer";
     private static final long TEST_RESULT = 5;
+    private static final String TEST_LOCALE_EN = "en";
 
     private OutputServiceImpl outputService;
 
-    @DisplayName("метод result")
+    @DisplayName("метод getConclusionMsg")
     @Test
-    void shouldCorrectOutputResult() {
-        outputService = new OutputServiceImpl(mock(Scanner.class));
+    void shouldCorrectgGtConclusionMsg() {
+        outputService = new OutputServiceImpl(mock(Scanner.class), mock(MessageSource.class), TEST_LOCALE_EN);
         assertThatNoException().isThrownBy(() ->
-                outputService.result(TEST_RESULT));
+                outputService.getConclusionMsg(TEST_RESULT));
+    }
+
+    @DisplayName("метод getGreetingMsg")
+    @Test
+    void shouldCorrectGetGreetingMsg() {
+        outputService = new OutputServiceImpl(mock(Scanner.class), mock(MessageSource.class), TEST_LOCALE_EN);
+        assertThatNoException().isThrownBy(() ->
+                outputService.getGreetingMsg());
     }
 
     @DisplayName("метод ask")
@@ -38,7 +48,7 @@ class OutputServiceImplTest {
     void shouldCorrectAsk() {
         Scanner scanner = mock(Scanner.class);
         when(scanner.next()).thenReturn(TEST_ACTUAL_ANSWER);
-        outputService = new OutputServiceImpl(scanner);
+        outputService = new OutputServiceImpl(scanner, mock(MessageSource.class), TEST_LOCALE_EN);
 
         List<Cell> cells = List.of(Cell.builder()
                 .question(TEST_QUESTION)

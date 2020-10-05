@@ -1,18 +1,20 @@
 package ru.otus;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import ru.otus.service.TestService;
 
 import java.io.IOException;
 
 @ComponentScan
+@SpringBootApplication
 public class Application {
 
     public static void main(String[] args) throws IOException {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(Application.class);
-        TestService testService = context.getBean(TestService.class);
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        TestService testService = ctx.getBean(TestService.class);
         testService.start();
     }
 }

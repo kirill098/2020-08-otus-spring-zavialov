@@ -8,5 +8,7 @@ public interface OutputService {
 
     List<Cell> ask(List<Cell> cells);
 
-    void result(long count);
+    void getConclusionMsg(long count);
+
+    void getGreetingMsg();
 }

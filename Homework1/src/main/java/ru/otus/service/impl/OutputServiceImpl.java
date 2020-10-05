@@ -1,20 +1,29 @@
 package ru.otus.service.impl;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.model.Cell;
 import ru.otus.service.OutputService;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import static java.util.stream.Collectors.toList;
 
-@Service
-@RequiredArgsConstructor
+@Service("outputService")
 public class OutputServiceImpl implements OutputService {
 
     private final Scanner scanner;
+    private final MessageSource messageSource;
+    private final Locale locale;
+
+    public OutputServiceImpl(Scanner scanner, MessageSource messageSource, @Value(value = "${msg.language}") String locale) {
+        this.scanner = scanner;
+        this.messageSource = messageSource;
+        this.locale = Locale.forLanguageTag(locale);
+    }
 
     @Override
     public List<Cell> ask(List<Cell> cells) {
@@ -26,9 +35,12 @@ public class OutputServiceImpl implements OutputService {
     }
 
     @Override
-    public void result(long count) {
-        System.out.println(String.format("Dear user, you answered %s of 5 questions correctly!", count));
+    public void getGreetingMsg() {
+        System.out.println(messageSource.getMessage("msg.greeting", null, locale));
     }
 
-
+    @Override
+    public void getConclusionMsg(long count) {
+        System.out.println(messageSource.getMessage("msg.conclusion", new String[] {Long.toString(count)}, locale));
+    }
 }
