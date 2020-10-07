@@ -1,13 +1,15 @@
 package ru.otus.service.impl;
 
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import ru.otus.service.InputService;
 import ru.otus.service.OutputService;
 
-import java.io.IOException;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -17,22 +19,33 @@ import static org.mockito.Mockito.when;
 
 
 @DisplayName("Класс TestServiceImplTest")
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class TestServiceImplTest {
 
+    @TestConfiguration
+    static class TestServiceConfiguration {
+        @Bean
+        public OutputService outputService() {
+            OutputService outputService = mock(OutputService.class);
+            when(outputService.ask(any())).thenReturn(Collections.emptyList());
+            return outputService;
+        }
+
+        @SneakyThrows
+        @Bean
+        public InputService inputService() {
+            InputService inputService = mock(InputService.class);
+            when(inputService.readCells()).thenReturn(Collections.emptyList());
+            return inputService;
+        }
+    }
+
+    @Autowired
     private TestServiceImpl testService;
 
     @DisplayName("метод start")
     @Test
-    void shouldCorrectStart() throws IOException {
-        OutputService outputService = mock(OutputService.class);
-        when(outputService.ask(any())).thenReturn(Collections.emptyList());
-
-        InputService inputService = mock(InputService.class);
-        when(inputService.readCells()).thenReturn(Collections.emptyList());
-
-        testService = new TestServiceImpl(inputService, outputService);
+    void shouldCorrectStart() {
         assertThatNoException().isThrownBy(() -> testService.start());
     }
-
 }
