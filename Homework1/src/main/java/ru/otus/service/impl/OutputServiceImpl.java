@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import static java.util.stream.Collectors.toList;
 
-@Service("outputService")
+@Service
 public class OutputServiceImpl implements OutputService {
 
     private final Scanner scanner;

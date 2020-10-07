@@ -10,7 +10,7 @@ import ru.otus.service.TestService;
 import java.io.IOException;
 import java.util.List;
 
-@Service("testService")
+@Service
 @RequiredArgsConstructor
 public class TestServiceImpl implements TestService {
 

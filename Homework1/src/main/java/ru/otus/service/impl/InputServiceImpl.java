@@ -11,7 +11,7 @@ import ru.otus.service.InputService;
 import java.io.InputStreamReader;
 import java.util.List;
 
-@Service("inputService")
+@Service
 @RequiredArgsConstructor
 public class InputServiceImpl implements InputService {
 
