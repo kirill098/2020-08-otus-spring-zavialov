@@ -1,0 +1,14 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+  main:
+    allow-bean-definition-overriding: true
+
+file:
+  path: src/test/resources/test_questions.csv
+
+msg:
+  language: ru_RU
+
+
