@@ -33,12 +33,12 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public Genre getById(long id) {
-        return jdbc.queryForObject("select * from genres where id = :id", Map.of("id", id), new GenreMapper());
+        return jdbc.queryForObject("select id, name from genres where id = :id", Map.of("id", id), new GenreMapper());
     }
 
     @Override
     public List<Genre> getAll() {
-        return jdbc.query("select * from genres", new GenreMapper());
+        return jdbc.query("select id, name from genres", new GenreMapper());
     }
 
     private static class GenreMapper implements RowMapper<Genre> {

@@ -33,12 +33,12 @@ public class AuthorDaoJdbc implements AuthorDao {
 
     @Override
     public Author getById(long id) {
-        return jdbc.queryForObject("select * from authors where id = :id", Map.of("id", id), new AuthorMapper());
+        return jdbc.queryForObject("select id, name from authors where id = :id", Map.of("id", id), new AuthorMapper());
     }
 
     @Override
     public List<Author> getAll() {
-        return jdbc.query("select * from authors", new AuthorMapper());
+        return jdbc.query("select id, name from authors", new AuthorMapper());
     }
 
     private static class AuthorMapper implements RowMapper<Author> {
