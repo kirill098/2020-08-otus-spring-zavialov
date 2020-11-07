@@ -42,6 +42,15 @@ class GenreDaoJdbcTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @DisplayName("корректно извлекать жанр по name")
+    @Test
+    void getByName() {
+        Genre expected = new Genre(EXISTED_ID, EXISTED_NAME);
+        Genre actual = genreDao.getByName(EXISTED_NAME);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+
     @DisplayName("корректно извлекать все жанры")
     @Test
     void getAll() {

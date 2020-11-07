@@ -2,13 +2,14 @@ package ru.otus.service;
 
 import ru.otus.model.Book;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface BookService {
 
-    Book create(String title, long genreId, long authorId);
+    Book create(@Valid Book book);
     Book getBookById(long id);
     List<Book> getAllBooks();
-    Book updateBook(long id, String title, long genreId, long authorId);
+    Book updateBook(@Valid Book book);
     void deleteBookById(long id);
 }

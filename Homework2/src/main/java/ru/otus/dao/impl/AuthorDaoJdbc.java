@@ -33,7 +33,18 @@ public class AuthorDaoJdbc implements AuthorDao {
 
     @Override
     public Author getById(long id) {
-        return jdbc.queryForObject("select id, name from authors where id = :id", Map.of("id", id), new AuthorMapper());
+        return jdbc.query("select id, name from authors where id = :id", Map.of("id", id), new AuthorMapper()).stream()
+                .reduce((a, b) -> {
+                    throw new IllegalStateException(String.format("Too many authors were found by id=%s", id));
+                }).orElse(null);
+    }
+
+    @Override
+    public Author getByName(String name) {
+        return jdbc.query("select id, name from authors where name = :name", Map.of("name", name), new AuthorMapper()).stream()
+                .reduce((a, b) -> {
+                    throw new IllegalStateException(String.format("Too many authors were found by name=%s", name));
+                }).orElse(null);
     }
 
     @Override

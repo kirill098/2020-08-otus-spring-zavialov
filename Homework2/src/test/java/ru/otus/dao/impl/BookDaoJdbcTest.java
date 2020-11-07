@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
-import ru.otus.model.Book;
+import ru.otus.model.dao.BookDb;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,17 +33,17 @@ class BookDaoJdbcTest {
     @DisplayName("корректно сохранять книгу")
     @Test
     void insert() {
-        Book expected = new Book(INSERTED_ID, INSERTED_TITLE, INSERTED_GENRE_ID, INSERTED_AUTHOR_ID);
+        BookDb expected = new BookDb(INSERTED_ID, INSERTED_TITLE, INSERTED_GENRE_ID, INSERTED_AUTHOR_ID);
         long id = bookDao.insert(expected);
-        Book actual = bookDao.getById(id);
+        BookDb actual = bookDao.getById(id);
         assertThat(actual).isEqualTo(expected);
     }
 
     @DisplayName("корректно извлекать книгу по id")
     @Test
     void getById() {
-        Book expected = new Book(EXISTED_ID, EXISTED_TITLE, EXISTED_GENRE_ID, EXISTED_AUTHOR_ID);
-        Book actual = bookDao.getById(EXISTED_ID);
+        BookDb expected = new BookDb(EXISTED_ID, EXISTED_TITLE, EXISTED_GENRE_ID, EXISTED_AUTHOR_ID);
+        BookDb actual = bookDao.getById(EXISTED_ID);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -58,9 +57,9 @@ class BookDaoJdbcTest {
     @DisplayName("корректно обновлять книгу по id")
     @Test
     void update() {
-        Book expected = new Book(EXISTED_ID, INSERTED_TITLE, INSERTED_GENRE_ID, INSERTED_AUTHOR_ID);
+        BookDb expected = new BookDb(EXISTED_ID, INSERTED_TITLE, INSERTED_GENRE_ID, INSERTED_AUTHOR_ID);
         bookDao.update(expected);
-        Book actual = bookDao.getById(expected.getId());
+        BookDb actual = bookDao.getById(expected.getId());
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -68,7 +67,6 @@ class BookDaoJdbcTest {
     @Test
     void deleteById() {
         bookDao.deleteById(EXISTED_ID);
-        Assertions.assertThrows(EmptyResultDataAccessException.class,
-                () -> bookDao.getById(EXISTED_ID));
+        Assertions.assertNull(bookDao.getById(EXISTED_ID));
     }
 }

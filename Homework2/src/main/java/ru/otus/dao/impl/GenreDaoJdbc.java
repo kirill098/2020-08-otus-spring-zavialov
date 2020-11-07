@@ -33,7 +33,18 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public Genre getById(long id) {
-        return jdbc.queryForObject("select id, name from genres where id = :id", Map.of("id", id), new GenreMapper());
+        return jdbc.query("select id, name from genres where id = :id", Map.of("id", id), new GenreMapper()).stream()
+                .reduce((a, b) -> {
+                    throw new IllegalStateException(String.format("Too many genres were found by id=%s", id));
+                }).orElse(null);
+    }
+
+    @Override
+    public Genre getByName(String name) {
+        return jdbc.query("select id, name from genres where name = :name", Map.of("name", name), new GenreMapper()).stream()
+                .reduce((a, b) -> {
+                    throw new IllegalStateException(String.format("Too many genres were found by name=%s", name));
+                }).orElse(null);
     }
 
     @Override

@@ -8,5 +8,6 @@ public interface GenreDao {
 
     long insert(Genre genre);
     Genre getById(long id);
+    Genre getByName(String name);
     List<Genre> getAll();
 }

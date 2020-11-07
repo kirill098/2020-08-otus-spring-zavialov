@@ -8,7 +8,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.dao.BookDao;
-import ru.otus.model.Book;
+import ru.otus.model.dao.BookDb;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class BookDaoJdbc implements BookDao {
     private final NamedParameterJdbcOperations jdbc;
 
     @Override
-    public long insert(Book book) {
+    public long insert(BookDb book) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("title", book.getTitle());
         params.addValue("genreId", book.getGenreId());
@@ -34,17 +34,20 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public Book getById(long id) {
-        return jdbc.queryForObject("select id, title, genre_id, author_id from books where id = :id", Map.of("id", id), new BookMapper());
+    public BookDb getById(long id) {
+        return jdbc.query("select id, title, genre_id, author_id from books where id = :id", Map.of("id", id), new BookMapper()).stream()
+                .reduce((a, b) -> {
+                    throw new IllegalStateException(String.format("Too many books were found by id=%s", id));
+                }).orElse(null);
     }
 
     @Override
-    public List<Book> getAll() {
+    public List<BookDb> getAll() {
         return jdbc.query("select id, title, genre_id, author_id from books", new BookMapper());
     }
 
     @Override
-    public void update(Book book) {
+    public void update(BookDb book) {
         Map<String, Object> params = Map.of("id", book.getId(),
                 "title", book.getTitle(),
                 "genreId", book.getGenreId(),
@@ -57,15 +60,15 @@ public class BookDaoJdbc implements BookDao {
         jdbc.update("delete from books where id = :id", Map.of("id", id));
     }
 
-    private static class BookMapper implements RowMapper<Book> {
+    private static class BookMapper implements RowMapper<BookDb> {
 
         @Override
-        public Book mapRow(ResultSet resultSet, int i) throws SQLException {
+        public BookDb mapRow(ResultSet resultSet, int i) throws SQLException {
             Long id = resultSet.getLong("id");
             String title = resultSet.getString("title");
             Long genreId = resultSet.getLong("genre_id");
             Long authorId = resultSet.getLong("author_id");
-            return new Book(id, title, genreId, authorId);
+            return new BookDb(id, title, genreId, authorId);
         }
     }
 }

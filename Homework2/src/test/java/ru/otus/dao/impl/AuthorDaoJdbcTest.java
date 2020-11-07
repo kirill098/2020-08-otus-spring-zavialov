@@ -42,6 +42,14 @@ class AuthorDaoJdbcTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @DisplayName("корректно извлекать автора по name")
+    @Test
+    void getByName() {
+        Author expected = new Author(EXISTED_ID, EXISTED_NAME);
+        Author actual = authorDao.getByName(EXISTED_NAME);
+        assertThat(actual).isEqualTo(expected);
+    }
+
     @DisplayName("корректно извлекать всех авторов")
     @Test
     void getAll() {
