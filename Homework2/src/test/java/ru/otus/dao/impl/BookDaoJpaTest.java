@@ -64,14 +64,7 @@ class BookDaoJpaTest {
     void getBookById() {
         val optionalActualBook = bookDao.findById(EXPECTED_BOOK_ID);
         val expectedBook = em.find(Book.class, EXPECTED_BOOK_ID);
-        assertThat(optionalActualBook).isPresent().get().isEqualTo(expectedBook);
-    }
 
-    @DisplayName("корректно извлекать книгу по title")
-    @Test
-    void getBookByTitle() {
-        val optionalActualBook = bookDao.findByTitle(EXPECTED_BOOK_TITLE);
-        val expectedBook = em.find(Book.class, EXPECTED_BOOK_ID);
         assertThat(optionalActualBook).isPresent().get().isEqualTo(expectedBook);
     }
 
@@ -100,9 +93,8 @@ class BookDaoJpaTest {
     void updateBook() {
         val book = em.find(Book.class, EXPECTED_BOOK_ID);
         String oldTitle = book.getTitle();
-        em.detach(book);
+        book.setTitle(BOOK_TITLE);
 
-        bookDao.updateTitleById(EXPECTED_BOOK_ID, BOOK_TITLE);
         val updateBook = em.find(Book.class, EXPECTED_BOOK_ID);
 
         assertThat(updateBook.getTitle()).isNotEqualTo(oldTitle).isEqualTo(BOOK_TITLE);

@@ -10,9 +10,8 @@ public interface CommentDao {
     Comment save(Comment comment);
 
     Optional<Comment> findById(long id);
-    Optional<Comment> findByDescription(String description);
+
     List<Comment> findAll();
 
-    void updateDescriptionById(long id, String description);
     void deleteById(long id);
 }
