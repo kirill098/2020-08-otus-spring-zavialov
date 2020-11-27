@@ -17,12 +17,12 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookDao bookDao;
 
+    @Transactional
     @Override
     public Book create(Book book) {
         return bookDao.save(book);
@@ -40,14 +40,22 @@ public class BookServiceImpl implements BookService {
         return bookDao.findAll().stream().map(convertToBookDescription).collect(toList());
     }
 
+    @Transactional
     @Override
     public void updateTitleById(long id, String title) {
         bookDao.findById(id).ifPresent(val -> val.setTitle(title));
     }
 
+    @Transactional
     @Override
     public void deleteById(long id) {
         bookDao.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public SimpleBook findByAuthorId(Long id) {
+        return bookDao.findByAuthors_id(id).map(convertToSimpleBook).orElse(null);
     }
 
     private static Function<Book, SimpleBook> convertToSimpleBook = (book) -> SimpleBook.builder()

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
+import ru.otus.dao.BookDao;
 import ru.otus.model.Author;
 import ru.otus.model.Book;
 import ru.otus.model.Comment;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Dao для работы с книгами должно")
 @DataJpaTest
-@Import(BookDaoJpa.class)
+//@Import(BookDao.class)
 class BookDaoJpaTest {
 
     private static final String AUTHOR_NAME = "authorName";
@@ -33,7 +33,7 @@ class BookDaoJpaTest {
     private static final int EXPECTED_SIZE = 3;
 
     @Autowired
-    private BookDaoJpa bookDao;
+    private BookDao bookDao;
 
     @Autowired
     private TestEntityManager em;

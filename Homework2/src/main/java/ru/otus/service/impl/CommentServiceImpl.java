@@ -10,16 +10,15 @@ import ru.otus.service.CommentService;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
     private final CommentDao commentDao;
 
+    @Transactional
     @Override
     public Comment create(Comment comment) {
-        commentDao.save(comment);
-        return comment;
+        return commentDao.save(comment);
     }
 
     @Transactional(readOnly = true)
@@ -34,11 +33,13 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.findAll();
     }
 
+    @Transactional
     @Override
     public void updateDescriptionById(long id, String description) {
         commentDao.findById(id).ifPresent(val -> val.setDescription(description));
     }
 
+    @Transactional
     @Override
     public void deleteById(long id) {
         commentDao.deleteById(id);
