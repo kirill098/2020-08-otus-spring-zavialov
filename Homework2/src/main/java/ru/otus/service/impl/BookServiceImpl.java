@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.dao.BookDao;
+import ru.otus.dto.BookDescription;
 import ru.otus.dto.SimpleBook;
 import ru.otus.model.Author;
 import ru.otus.model.Book;
-import ru.otus.model.Comment;
 import ru.otus.model.Genre;
 import ru.otus.service.BookService;
 
@@ -28,14 +28,16 @@ public class BookServiceImpl implements BookService {
         return bookDao.save(book);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public SimpleBook getById(long id) {
         return bookDao.findById(id).map(convertToSimpleBook).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<SimpleBook> getAll() {
-        return bookDao.findAll().stream().map(convertToSimpleBook).collect(toList());
+    public List<BookDescription> getAll() {
+        return bookDao.findAll().stream().map(convertToBookDescription).collect(toList());
     }
 
     @Override
@@ -52,6 +54,12 @@ public class BookServiceImpl implements BookService {
             .title(book.getTitle())
             .authors(book.getAuthors().stream().map(Author::getName).collect(toList()))
             .genres(book.getGenres().stream().map(Genre::getName).collect(toList()))
-            .comments(book.getComments().stream().map(Comment::getDescription).collect(toList()))
+            .comments(null)
+            .build();
+
+    private static Function<Book, BookDescription> convertToBookDescription = (book) -> BookDescription.builder()
+            .title(book.getTitle())
+            .authors(book.getAuthors().stream().map(Author::getName).collect(toList()))
+            .genres(book.getGenres().stream().map(Genre::getName).collect(toList()))
             .build();
 }

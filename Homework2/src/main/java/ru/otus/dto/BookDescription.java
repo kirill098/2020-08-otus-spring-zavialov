@@ -11,10 +11,9 @@ import java.util.List;
 @Builder
 @ToString(includeFieldNames = false)
 @AllArgsConstructor
-public class SimpleBook {
+public class BookDescription {
 
     private String title;
     private List<String> genres;
     private List<String> authors;
-    private List<String> comments;
 }

@@ -8,7 +8,6 @@ import ru.otus.model.Comment;
 import ru.otus.service.CommentService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,11 +22,13 @@ public class CommentServiceImpl implements CommentService {
         return comment;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Comment getById(long id) {
         return commentDao.findById(id).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Comment> getAll() {
         return commentDao.findAll();

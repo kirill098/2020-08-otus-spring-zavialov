@@ -3,6 +3,7 @@ package ru.otus.shell;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import ru.otus.dto.BookDescription;
 import ru.otus.dto.SimpleBook;
 import ru.otus.model.Author;
 import ru.otus.model.Book;
@@ -37,7 +38,7 @@ public class ShellApplication {
     }
 
     @ShellMethod(value = "Получение всего списка книг", key = {"get books"})
-    public List<SimpleBook> getAllBooks() {
+    public List<BookDescription> getAllBooks() {
         return bookService.getAll();
     }
 
