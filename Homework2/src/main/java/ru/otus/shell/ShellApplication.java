@@ -85,9 +85,4 @@ public class ShellApplication {
                 .map(SimpleBook::getComments)
                 .orElse(null);
     }
-
-    @ShellMethod(value = "Получение книг по id автора", key = {"get books by author id"})
-    public SimpleBook findByAuthorId(long id) {
-        return bookService.findByAuthorId(id);
-    }
 }

@@ -12,8 +12,6 @@ public interface BookService {
 
     SimpleBook getById(long id);
 
-    SimpleBook findByAuthorId(Long id);
-
     List<BookDescription> getAll();
 
     void updateTitleById(long id, String title);

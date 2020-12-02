@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public List<Comment> getAll() {
-        return commentDao.findAll();
+        return (List)commentDao.findAll();
     }
 
     @Transactional

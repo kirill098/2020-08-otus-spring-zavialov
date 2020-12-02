@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public List<BookDescription> getAll() {
-        return bookDao.findAll().stream().map(convertToBookDescription).collect(toList());
+        return ((List<Book>)bookDao.findAll()).stream().map(convertToBookDescription).collect(toList());
     }
 
     @Transactional
@@ -50,12 +50,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(long id) {
         bookDao.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public SimpleBook findByAuthorId(Long id) {
-        return bookDao.findByAuthors_id(id).map(convertToSimpleBook).orElse(null);
     }
 
     private static Function<Book, SimpleBook> convertToSimpleBook = (book) -> SimpleBook.builder()
