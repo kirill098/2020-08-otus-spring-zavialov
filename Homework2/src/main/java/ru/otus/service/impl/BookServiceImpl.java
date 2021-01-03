@@ -8,9 +8,11 @@ import ru.otus.dto.BookDescription;
 import ru.otus.dto.SimpleBook;
 import ru.otus.model.Author;
 import ru.otus.model.Book;
+import ru.otus.model.Comment;
 import ru.otus.model.Genre;
 import ru.otus.service.BookService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -37,7 +39,9 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public List<BookDescription> getAll() {
-        return ((List<Book>)bookDao.findAll()).stream().map(convertToBookDescription).collect(toList());
+        List<Book> books = new ArrayList<>();
+        bookDao.findAll().forEach(books::add);
+        return books.stream().map(convertToBookDescription).collect(toList());
     }
 
     @Transactional
@@ -56,7 +60,7 @@ public class BookServiceImpl implements BookService {
             .title(book.getTitle())
             .authors(book.getAuthors().stream().map(Author::getName).collect(toList()))
             .genres(book.getGenres().stream().map(Genre::getName).collect(toList()))
-            .comments(null)
+            .comments(book.getComments().stream().map(Comment::getDescription).collect(toList()))
             .build();
 
     private static Function<Book, BookDescription> convertToBookDescription = (book) -> BookDescription.builder()
